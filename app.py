@@ -4,6 +4,7 @@ import re
 import os
 import random
 import time
+from utils import add_watermark
 
 base_url = 'https://machtalk.xiachufang.com'
 search_url = base_url + "/search/?keyword="
@@ -57,7 +58,12 @@ def download_recipe_imgs(recipe_name):
     create_directory(save_path)
     for i, recipe_url in enumerate(recipe_urls[:5]):
         main_img_url = get_main_img_url(recipe_url)
-        download_image(main_img_url, f'{save_path}/{i}.jpg')
+        dest_path = f'{save_path}/{i}.jpg'
+        dest_path_mark = f'{save_path}/{i}_mark.jpg'
+        # 下载图片
+        download_image(main_img_url, dest_path)
+        # 添加水印
+        add_watermark(dest_path, dest_path_mark, 'watermark.png')
 
     time_to_sleep = int(random.random() * 3)
     time.sleep(time_to_sleep)
@@ -76,6 +82,6 @@ def get_names(file_path):
 
 
 if __name__ == '__main__':
-    name_list = get_names('./菜谱名称.txt')[:]
+    name_list = get_names('./菜谱名称.txt')[:1]
     for name in name_list:
         download_recipe_imgs(name)

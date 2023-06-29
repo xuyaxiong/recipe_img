@@ -1,2 +1,4 @@
 *.zip
 菜谱图片/
+test.*
+__pycache__
